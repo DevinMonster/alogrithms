@@ -1,5 +1,10 @@
+package algo;
+
 import java.util.Arrays;
 
+/**
+ * @author Devin
+ */
 public class PriorityQueue {
     private final int[] arr;
     private int size;
@@ -16,11 +21,15 @@ public class PriorityQueue {
     }
 
     private void createMaxHeap(int[] give){
-        for (int i = getParent(give.length - 1); i >= 0 ; i--) shiftDownMax(i);
+        for (int i = getParent(give.length - 1); i >= 0 ; i--) {
+            shiftDownMax(i);
+        }
     }
 
     private void createMinHeap(int[] give){
-        for (int i = getParent(give.length - 1); i >= 0 ; i--) shiftDownMax(i);
+        for (int i = getParent(give.length - 1); i >= 0 ; i--) {
+            shiftDownMax(i);
+        }
     }
 
     public int getSize() {
@@ -100,9 +109,13 @@ public class PriorityQueue {
         while (getLeftChild(i) < size){
             int j = getLeftChild(i);
             // 右孩子存在且大于左孩子的值 j + 1 为右孩子,j为左孩子
-            if (j + 1 < size && arr[j+1] > arr[j] ) j = getRightChild(i);
+            if (j + 1 < size && arr[j+1] > arr[j] ) {
+                j = getRightChild(i);
+            }
             // 若arr[j] 是左孩子或右孩子中最大的
-            if (arr[i] >= arr[j]) break;
+            if (arr[i] >= arr[j]) {
+                break;
+            }
             swap(i,j);
             i = j;
         }

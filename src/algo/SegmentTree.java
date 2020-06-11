@@ -1,4 +1,6 @@
-import org.jetbrains.annotations.NotNull;
+package algo;
+
+import com.sun.istack.internal.NotNull;
 
 import java.util.Scanner;
 
@@ -51,8 +53,11 @@ public class SegmentTree {
         }
         // 两种状态，无非是在左子树要不就是在右子树
         int mid = (node.left + node.right) / 2;
-        if (index<=mid) updateOne(node.left_child, index, value);
-        else updateOne(node.right_child, index, value);
+        if (index<=mid) {
+            updateOne(node.left_child, index, value);
+        } else {
+            updateOne(node.right_child, index, value);
+        }
 
         // 更新统计量
         node.sum = node.left_child.sum + node.right_child.sum;
@@ -60,15 +65,20 @@ public class SegmentTree {
     }
 
     private @NotNull Node build(int l, int r) { // 构造线段树
-        Node current = new Node(l, r); // 当前节点代表l-r区间
+        // 当前节点代表l-r区间
+        Node current = new Node(l, r);
 
-        if (l == r) { // 叶子节点时
+        // 叶子节点时
+        if (l == r) {
             current.max = data[l];
             current.sum = data[l];
         } else {
-            int mid = (l + r) / 2; // 分界线
-            Node left = build(l, mid); // 左子树
-            Node right = build(mid + 1, r); // 右子树
+            // 分界线
+            int mid = (l + r) / 2;
+            // 左子树
+            Node left = build(l, mid);
+            // 右子树
+            Node right = build(mid + 1, r);
             // 连接左右子树
             current.left_child = left;
             current.right_child = right;
@@ -81,17 +91,28 @@ public class SegmentTree {
     }
 
     public int queryMax(@NotNull Node current, int left_bound, int right_bound) {
-        if (current.left == left_bound && current.right == right_bound) return current.max; //如果是当前区间之接返回值
+        //如果是当前区间之接返回值
+        if (current.left == left_bound && current.right == right_bound) {
+            return current.max;
+        }
 
-        int node_mid = (current.left + current.right) / 2;// 取出中点
+        // 取出中点
+        int node_mid = (current.left + current.right) / 2;
 
-        if (right_bound <= node_mid) return queryMax(current.left_child, left_bound, right_bound); //完全在左
-        if (left_bound > node_mid) return queryMax(current.right_child, left_bound, right_bound); // 完全在右
+        //完全在左
+        if (right_bound <= node_mid) {
+            return queryMax(current.left_child, left_bound, right_bound);
+        }
+
+        // 完全在右
+        if (left_bound > node_mid) {
+            return queryMax(current.right_child, left_bound, right_bound);
+        }
         // 既有左又有右
         return Math.max(queryMax(current.left_child, left_bound, node_mid), queryMax(current.right_child, node_mid + 1, right_bound));
     }
 
-    // 相似于上边
+
     public int querySum(@NotNull Node current, int left_bound, int right_bound) { // [left,right]
         if (current.left == left_bound && current.right == right_bound) return current.sum;
 

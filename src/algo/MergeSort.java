@@ -1,3 +1,5 @@
+package algo;
+
 public class MergeSort {
 
     private static void merge(int[] a, int[] b, int l, int mid, int r){
